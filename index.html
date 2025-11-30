@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактор научной программы - Профессиональное общество трихологов</title>
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <img src="assets/images/logo-t.png" alt="Логотип Профессионального общества трихологов">
+        <h1>Редактор научной программы конференции</h1>
+    </div>
+    
+    <div class="toolbar">
+        <button class="primary" onclick="addDay()">
+            <i class="fas fa-plus"></i> Добавить день
+        </button>
+        <button class="primary" onclick="addSession()">
+            <i class="fas fa-calendar-plus"></i> Добавить сессию
+        </button>
+        <button class="primary" onclick="addTalk()">
+            <i class="fas fa-microphone"></i> Добавить доклад
+        </button>
+        <button class="primary" onclick="addBreak()">
+            <i class="fas fa-coffee"></i> Добавить перерыв
+        </button>
+        <button class="secondary" onclick="editHeader()">
+            <i class="fas fa-edit"></i> Редактировать заголовок
+        </button>
+        <button class="secondary" onclick="saveProgram()">
+            <i class="fas fa-save"></i> Сохранить
+        </button>
+        <button class="secondary" onclick="loadProgram()">
+            <i class="fas fa-folder-open"></i> Загрузить
+        </button>
+        <button class="primary" onclick="exportToPDF()">
+            <i class="fas fa-file-pdf"></i> Скачать PDF
+        </button>
+    </div>
+    
+    <div class="container-fluid">
+        <div class="sidebar">
+            <h3><i class="fas fa-palette"></i> Компоненты программы</h3>
+            
+            <div class="component-item">
+                <i class="fas fa-calendar-day"></i>
+                <strong>День конференции</strong>
+                <p style="font-size: 12px; margin: 5px 0 0 0; color: #666;">Заголовок дня с датой</p>
+            </div>
+            
+            <div class="component-item">
+                <i class="fas fa-users"></i>
+                <strong>Научная сессия</strong>
+                <p style="font-size: 12px; margin: 5px 0 0 0; color: #666;">Тематическая сессия с докладами</p>
+            </div>
+            
+            <div class="component-item">
+                <i class="fas fa-presentation"></i>
+                <strong>Доклад</strong>
+                <p style="font-size: 12px; margin: 5px 0 0 0; color: #666;">Название, автор, время</p>
+            </div>
+            
+            <div class="component-item">
+                <i class="fas fa-coffee"></i>
+                <strong>Перерыв</strong>
+                <p style="font-size: 12px; margin: 5px 0 0 0; color: #666;">Кофе-брейк, обед</p>
+            </div>
+            
+            <div class="component-item">
+                <i class="fas fa-comments"></i>
+                <strong>Круглый стол</strong>
+                <p style="font-size: 12px; margin: 5px 0 0 0; color: #666;">Дискуссия, панель</p>
+            </div>
+            
+            <div class="component-item">
+                <i class="fas fa-certificate"></i>
+                <strong>Торжественная часть</strong>
+                <p style="font-size: 12px; margin: 5px 0 0 0; color: #666;">Открытие, закрытие, награждение</p>
+            </div>
+        </div>
+        
+        <div class="editor-area">
+            <div class="preview-area" id="programContent">
+                <!-- Заголовок программы -->
+                <div class="program-header editable" onclick="editHeader()">
+                    <img src="assets/images/logo-t.png" alt="Логотип" class="program-logo">
+                    <div class="program-title" id="conferenceTitle">
+                        XXIV НАУЧНО-ПРАКТИЧЕСКАЯ КОНФЕРЕНЦИЯ ПО ТРИХОЛОГИИ
+                    </div>
+                    <div class="program-subtitle" id="conferenceSubtitle">
+                        «Инновации в трихологии: мировые направления развития и холодный расчет»
+                    </div>
+                    <div class="program-date" id="conferenceDate">
+                        6-7 декабря 2025 года, Москва
+                    </div>
+                </div>
+                
+                <!-- Дни конференции будут добавляться здесь -->
+                <div id="programDays">
+                    <!-- Пример структуры -->
+                    <div class="day-section">
+                        <div class="day-header">
+                            <i class="fas fa-calendar"></i> День 1 - 6 декабря 2025
+                        </div>
+                        
+                        <div class="session-block">
+                            <div class="session-time">09:00 - 09:30</div>
+                            <div class="session-title">Регистрация участников</div>
+                        </div>
+                        
+                        <div class="session-block">
+                            <div class="session-time">09:30 - 10:00</div>
+                            <div class="session-title">Торжественное открытие конференции</div>
+                            <div class="talk-item">
+                                <div class="talk-title">Приветственное слово</div>
+                                <div class="talk-author">Президент Профессионального общества трихологов</div>
+                            </div>
+                        </div>
+                        
+                        <div class="break-item">
+                            <i class="fas fa-coffee"></i> 10:00 - 10:30 - Кофе-брейк
+                        </div>
+                        
+                        <div class="session-block">
+                            <div class="session-time">10:30 - 12:30</div>
+                            <div class="session-title">Научная сессия 1: Современные методы диагностики</div>
+                            
+                            <div class="talk-item editable">
+                                <div class="talk-title">Трихоскопия в диагностике алопеций: современный подход</div>
+                                <div class="talk-author">Иванов И.И., д.м.н., профессор</div>
+                            </div>
+                            
+                            <div class="talk-item editable">
+                                <div class="talk-title">Молекулярно-генетические методы в трихологии</div>
+                                <div class="talk-author">Петрова А.С., к.м.н.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для редактирования заголовка -->
+    <div id="headerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header-custom">
+                <i class="fas fa-edit"></i> Редактирование заголовка программы
+            </div>
+            <div class="form-group">
+                <label>Название конференции:</label>
+                <input type="text" id="editTitle" placeholder="Введите название">
+            </div>
+            <div class="form-group">
+                <label>Подзаголовок:</label>
+                <input type="text" id="editSubtitle" placeholder="Введите подзаголовок">
+            </div>
+            <div class="form-group">
+                <label>Дата и место:</label>
+                <input type="text" id="editDate" placeholder="Введите дату и место">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="secondary" onclick="closeModal('headerModal')">Отмена</button>
+                <button class="primary" onclick="saveHeader()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для добавления дня -->
+    <div id="dayModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header-custom">
+                <i class="fas fa-calendar-day"></i> Добавить день конференции
+            </div>
+            <div class="form-group">
+                <label>Номер дня:</label>
+                <input type="number" id="dayNumber" min="1" value="1">
+            </div>
+            <div class="form-group">
+                <label>Дата:</label>
+                <input type="text" id="dayDate" placeholder="6 декабря 2025">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="secondary" onclick="closeModal('dayModal')">Отмена</button>
+                <button class="primary" onclick="saveDay()">Добавить</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для добавления сессии -->
+    <div id="sessionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header-custom">
+                <i class="fas fa-users"></i> Добавить сессию
+            </div>
+            <div class="form-group">
+                <label>Время:</label>
+                <input type="text" id="sessionTime" placeholder="10:30 - 12:30">
+            </div>
+            <div class="form-group">
+                <label>Название сессии:</label>
+                <input type="text" id="sessionTitle" placeholder="Научная сессия 1: Название">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="secondary" onclick="closeModal('sessionModal')">Отмена</button>
+                <button class="primary" onclick="saveSession()">Добавить</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для добавления доклада -->
+    <div id="talkModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header-custom">
+                <i class="fas fa-microphone"></i> Добавить доклад
+            </div>
+            <div class="form-group">
+                <label>Время доклада (опционально):</label>
+                <input type="text" id="talkTime" placeholder="10:30 - 10:45">
+            </div>
+            <div class="form-group">
+                <label>Название доклада:</label>
+                <textarea id="talkTitle" placeholder="Введите название доклада"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Автор(ы):</label>
+                <input type="text" id="talkAuthor" placeholder="Фамилия И.О., должность">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="secondary" onclick="closeModal('talkModal')">Отмена</button>
+                <button class="primary" onclick="saveTalk()">Добавить</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Модальное окно для добавления перерыва -->
+    <div id="breakModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header-custom">
+                <i class="fas fa-coffee"></i> Добавить перерыв
+            </div>
+            <div class="form-group">
+                <label>Время:</label>
+                <input type="text" id="breakTime" placeholder="10:00 - 10:30">
+            </div>
+            <div class="form-group">
+                <label>Название:</label>
+                <input type="text" id="breakTitle" placeholder="Кофе-брейк" value="Кофе-брейк">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="secondary" onclick="closeModal('breakModal')">Отмена</button>
+                <button class="primary" onclick="saveBreak()">Добавить</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- jQuery и jsPDF -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <script src="assets/js/editor.js"></script>
+</body>
+</html>
