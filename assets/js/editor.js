@@ -402,11 +402,12 @@ function loadProgram() {
 
 // Экспорт в PDF
 async function exportToPDF() {
+    document.body.classList.add('pdf-export');
     const loadingDiv = document.createElement('div');
     loadingDiv.id = 'loadingIndicator';
     loadingDiv.innerHTML = `
-        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-                    background: white; padding: 30px; border-radius: 10px; 
+        <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    background: white; padding: 30px; border-radius: 10px;
                     box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 10000; text-align: center;">
             <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #E8B4D9; margin-bottom: 15px;"></i>
             <div style="font-size: 18px; color: #333;">Генерация PDF...</div>
@@ -417,9 +418,9 @@ async function exportToPDF() {
     
     try {
         const element = document.getElementById('programContent');
-        
+
         const canvas = await html2canvas(element, {
-            scale: 2,
+            scale: 1.5,
             useCORS: true,
             allowTaint: true,
             logging: false,
@@ -436,26 +437,28 @@ async function exportToPDF() {
             format: 'a4'
         });
         
-        const imgWidth = 210;
-        const pageHeight = 297;
+        const margin = 10;
+        const imgWidth = 210 - margin * 2;
+        const pageHeight = 297 - margin * 2;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
         let heightLeft = imgHeight;
-        let position = 0;
-        
-        pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+        let position = margin;
+
+        pdf.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
         heightLeft -= pageHeight;
-        
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
+
+        while (heightLeft > 0) {
+            position = margin + heightLeft - imgHeight;
             pdf.addPage();
-            pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+            pdf.addImage(imgData, 'PNG', margin, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
         }
         
         const fileName = 'научная_программа_' + new Date().toISOString().split('T')[0] + '.pdf';
         pdf.save(fileName);
-        
+
         document.body.removeChild(loadingDiv);
+        document.body.classList.remove('pdf-export');
         
         const successDiv = document.createElement('div');
         successDiv.innerHTML = `
@@ -480,6 +483,7 @@ async function exportToPDF() {
         if (loadingEl && document.body.contains(loadingEl)) {
             document.body.removeChild(loadingEl);
         }
+        document.body.classList.remove('pdf-export');
         alert('Ошибка при создании PDF. Попробуйте открыть файл через веб-сервер (не напрямую из папки).\n\nОшибка: ' + error.message);
     }
 }

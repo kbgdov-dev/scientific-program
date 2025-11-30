@@ -118,9 +118,11 @@ body {
     background: white;
     max-width: 210mm; /* A4 width */
     margin: 0 auto;
-    padding: 20mm;
+    padding: 18mm;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     min-height: 297mm; /* A4 height */
+    font-size: 12px;
+    line-height: 1.5;
 }
 
 .program-header {
@@ -131,63 +133,66 @@ body {
 }
 
 .program-logo {
-    width: 120px;
-    margin-bottom: 15px;
+    width: 110px;
+    margin-bottom: 12px;
 }
 
 .program-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: var(--secondary-color);
-    margin: 10px 0;
+    margin: 8px 0;
     text-transform: uppercase;
 }
 
 .program-subtitle {
-    font-size: 18px;
+    font-size: 15px;
     color: #666;
     margin: 5px 0;
 }
 
 .program-date {
-    font-size: 16px;
+    font-size: 14px;
     color: #888;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .day-section {
-    margin: 30px 0;
+    margin: 24px 0;
     page-break-inside: avoid;
 }
 
 .day-header {
     background: var(--primary-color);
     color: white;
-    padding: 15px;
-    font-size: 20px;
+    padding: 12px 15px;
+    font-size: 17px;
     font-weight: bold;
     border-radius: 5px;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
+    position: relative;
 }
 
 .session-block {
-    margin: 20px 0;
+    margin: 16px 0;
     border-left: 4px solid var(--primary-color);
-    padding-left: 20px;
+    padding-left: 16px;
     page-break-inside: avoid;
 }
 
 .session-time {
     font-weight: bold;
     color: var(--secondary-color);
-    font-size: 16px;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 8px;
 }
 
 .session-title {
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    position: relative;
+    padding-right: 40px;
 }
 
 .talk-item {
@@ -196,6 +201,8 @@ body {
     background: #f9f9f9;
     border-radius: 5px;
     page-break-inside: avoid;
+    position: relative;
+    padding-right: 40px;
 }
 
 .talk-title {
@@ -215,6 +222,8 @@ body {
     margin: 15px 0;
     font-weight: bold;
     page-break-inside: avoid;
+    position: relative;
+    padding-right: 40px;
 }
 
 .modal {
@@ -285,12 +294,14 @@ body {
     background: #dc3545;
     color: white;
     border: none;
-    padding: 5px 10px;
+    padding: 4px 8px;
     border-radius: 3px;
     cursor: pointer;
-    font-size: 12px;
-    transition: all 0.3s;
-    margin-left: 10px;
+    font-size: 11px;
+    transition: all 0.2s;
+    margin-left: 8px;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .delete-btn:hover,
@@ -316,30 +327,28 @@ body {
     top: 5px;
 }
 
+.talk-item:hover .delete-btn,
+.session-block:hover .delete-btn-session,
+.break-item:hover .delete-btn,
+.day-header:hover .delete-btn-header {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.pdf-export .delete-btn,
+.pdf-export .delete-btn-header,
+.pdf-export .delete-btn-session,
+.pdf-export .editable:hover {
+    display: none !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
 .talk-time-small {
     font-size: 12px;
     color: var(--secondary-color);
     font-weight: bold;
     margin-bottom: 5px;
-}
-
-.talk-item {
-    position: relative;
-    padding-right: 40px;
-}
-
-.session-title {
-    position: relative;
-    padding-right: 40px;
-}
-
-.day-header {
-    position: relative;
-}
-
-.break-item {
-    position: relative;
-    padding-right: 40px;
 }
 
 @media print {
